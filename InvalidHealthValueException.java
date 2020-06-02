@@ -1,9 +1,9 @@
 
-public class InvalidHealthValueException {
+public class InvalidHealthValueException extends Exception{
 
-	static void checkHealth(int Health) {
+	static void checkHealth(int Health) throws Exception {
 		if (Health < 0) {
-			throw new ArithmeticException("Health Value can not be negative.");
+			throw new Exception("Health Value can not be negative.");
 		}
 		else {
 			System.out.println("Mission Ready - You are Healthy!");

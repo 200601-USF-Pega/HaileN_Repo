@@ -30,7 +30,7 @@ public class Validation {
 		return false;
 	}
 
-	public Company credentialCheck(String email, String password) {
+	public Company credentialCheckCompany(String email, String password) {
 
 		Company company = null;
 		for (Company c : companyRegistrationRepo.getCompany()) {
@@ -39,6 +39,17 @@ public class Validation {
 			}
 		}
 		return company;
+	}
+
+	public Applicant credentialCheckApplicant(String email, String password) {
+
+		Applicant applicant = null;
+		for (Applicant a : applicantResgistrationRepo.getApplicants()) {
+			if (a.getEmail().equals(email) && a.getPasword().equals(password)) {
+				applicant = a;
+			}
+		}
+		return applicant;
 	}
 
 }

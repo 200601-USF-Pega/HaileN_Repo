@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.revature.jobportal.db.CompanyRegistrationRepo;
 import com.revature.jobportal.db.JobPositionRepo;
+import com.revature.jobportal.model.Applicant;
 import com.revature.jobportal.model.Company;
 import com.revature.jobportal.model.JobPosition;
 import com.revature.jobportal.validation.Validation;
@@ -53,7 +54,7 @@ public class CompanyService {
 		System.out.print("Enter password: ");
 		String password = input.nextLine();
 
-		Company company = validation.credentialCheck(email, password);
+		Company company = validation.credentialCheckCompany(email, password);
 
 		if (company != null) {
 			System.out.println("\nWelcome back: " + company.getCompanyName().toUpperCase());
@@ -80,7 +81,15 @@ public class CompanyService {
 
 				System.out.println("Job successfully posted!");
 			} else if (userInput.equals("2")) {
-
+				for (JobPosition j : jobPositionRepo.getJobPosition()) {
+					if (j.getCompany().equals(company.getCompanyName())) {
+						if(!j.getApplicants().isEmpty()) {							
+							for(Applicant a : j.getApplicants()) {
+								System.out.println(a.getFirstName() + " " + a.getLastName() + " " + a.getEmail());								
+							}
+						}
+					}
+				}	
 			}
 
 		} else {

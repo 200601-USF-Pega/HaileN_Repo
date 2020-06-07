@@ -1,22 +1,49 @@
 package com.revature.jobportal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JobPosition {
 
+	private int id;
 	private String title;
 	private String location;
 	private String description;
 	private String company;
+	private static int count = 1;
+	private List<Applicant> applicants = new ArrayList<Applicant>();
 
 	public JobPosition(String title, String location, String description, String company) {
 
+		this.id = count++;
 		this.title = title;
 		this.location = location;
 		this.description = description;
 		this.company = company;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void addApplicant(Applicant applicant) {
+		getApplicants().add(applicant);
+	}
+
+	public List<Applicant> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(List<Applicant> applicants) {
+		this.applicants = applicants;
+	}
+
 	public String getCompany() {
 		return company;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setCompany(String company) {

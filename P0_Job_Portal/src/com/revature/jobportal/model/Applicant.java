@@ -2,23 +2,26 @@ package com.revature.jobportal.model;
 
 public class Applicant {
 
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String pasword;
-
-	public Applicant() {
-		
-	}
-
+	private static int count = 1;
+	
 	public Applicant(String firstName, String lastName, String email, String pasword) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.pasword = pasword;
+		this.id = count;
 	}
 
+	public int getId() {
+		return id;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}

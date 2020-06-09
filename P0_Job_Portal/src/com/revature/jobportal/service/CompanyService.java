@@ -117,17 +117,42 @@ public class CompanyService {
 					} else {
 						String b = null;
 						do {
-							System.out.print(
-									"\n                       1. Review candidate profiles\n        " + "               2. go back ");
+							System.out.print("\n                       1. Review candidate profiles\n        "
+									+ "               2. go back ");
 							b = input.nextLine();
 							if (b.equals("2")) {
 								check = true;
 							} else if (b.equals("1")) {
-
+								System.out.println("\n==== Review Candidate Profiles ====\n");
+								for (JobPosition j : jobPositionRepo.getJobPosition()) {
+									if (j.getCompany().equals(company.getCompanyName())) {
+										for (Applicant a : j.getApplicants()) {
+											String ad = null;
+											do {
+												System.out.println("         " + a.getFirstName() + " "
+														+ a.getLastName() + " " + a.getEmail());
+												System.out.print("\n                       1. Accept\n        "
+														+ "               2. Decline ");
+												ad = input.nextLine();
+												if (ad.equals("1")) {
+													a.setStatus("accepted");
+													System.out.println(a.getFirstName() + " " + a.getLastName() + " " + " ***profile has been successfully accepted.");
+													Thread.sleep(1500);
+												} else if (ad.equals("2")) {
+													a.setStatus("declined");
+													System.out.println(a.getFirstName() + " " + a.getLastName() + " " + " ***profile has been successfully declined.");
+													Thread.sleep(1500);
+												}
+											} while (!ad.equals("1") && !ad.equals("2"));
+										}
+										System.out.println();
+									}
+								}
+								check = true;
 							}
 						} while (!b.equals("2") && !b.equals("1"));
 					}
-				}else if (userInput.equals("3")) {
+				} else if (userInput.equals("3")) {
 					System.out.println("Successfully signed out!\n");
 					Thread.sleep(3000);
 					MainMenu menu = new MainMenu();

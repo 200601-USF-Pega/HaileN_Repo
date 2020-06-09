@@ -11,7 +11,7 @@ public class MainMenu {
 	ApplicantService applicantService = new ApplicantService();
 	CompanyService companyService = new CompanyService();
 
-	public void start() {
+	public void start() throws Exception {
 		System.out.println("*** WELCOME TO JOB PORTAL ***\n \n1. Sign In\n2. Sign Up");
 
 		do {
@@ -35,6 +35,8 @@ public class MainMenu {
 				} else if (userInput.equals("2")) {
 					companyService.signUp();
 				}
+			} else {
+				System.out.println("wrong input, enter either 1 or 2");
 			}
 		} while (true);
 	}

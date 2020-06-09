@@ -7,6 +7,7 @@ public class Applicant {
 	private String lastName;
 	private String email;
 	private String pasword;
+	private String status;
 	private static int count = 1;
 	
 	public Applicant(String firstName, String lastName, String email, String pasword) {
@@ -16,6 +17,14 @@ public class Applicant {
 		this.email = email;
 		this.pasword = pasword;
 		this.id = count;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public int getId() {

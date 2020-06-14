@@ -13,7 +13,7 @@ public class ConnectionService {
 	//set file path to file containing database connection details.
 	public ConnectionService() {
 		try  {
-			FileInputStream fis = new FileInputStream("C:\\Users\\Nathnael\\git\\HaileN_Repo\\P0_Job_Portal\\src\\connection.prop.txt");
+			FileInputStream fis = new FileInputStream("connection.prop");
 			Properties p = new Properties();
 			p.load(fis);
 			

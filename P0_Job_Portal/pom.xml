@@ -5,6 +5,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>job-portal</name>
   <description>This is my job search engine program</description>
+ <dependencies>
+ <dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.2.13</version>
+ </dependency> 
+</dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>

@@ -36,7 +36,7 @@ public class MainMenu {
 					companyService.signUp();
 				}
 			} else {
-				System.out.println("wrong input, enter either 1 or 2");
+				System.out.println("Enter 1 for SignIn or 2 for SignUp");
 			}
 		} while (true);
 	}

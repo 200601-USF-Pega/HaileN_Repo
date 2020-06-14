@@ -3,6 +3,7 @@ package com.revature.jobportal.model;
 import java.util.ArrayList;
 import java.util.List;
 
+//job position details
 public class JobPosition {
 
 	private int id;
@@ -10,12 +11,13 @@ public class JobPosition {
 	private String location;
 	private String description;
 	private String company;
-	private static int count = 1;
 	private List<Applicant> applicants = new ArrayList<Applicant>();
 
+	public JobPosition() {
+		
+	}
 	public JobPosition(String title, String location, String description, String company) {
 
-		this.id = count++;
 		this.title = title;
 		this.location = location;
 		this.description = description;

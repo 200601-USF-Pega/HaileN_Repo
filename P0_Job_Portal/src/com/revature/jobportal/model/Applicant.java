@@ -10,6 +10,9 @@ public class Applicant {
 	private String status;
 	private static int count = 1;
 	
+	public Applicant() {
+		
+	}
 	public Applicant(String firstName, String lastName, String email, String pasword) {
 		super();
 		this.firstName = firstName;

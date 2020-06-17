@@ -43,9 +43,11 @@ public class ApplicantRegistrationRepoImpl implements ApplicantRegistrationRepo 
 	
 	//adds applicant to database
 	public void addApplicant(Applicant applicant) {
+		int id = 1 + (int)(Math.random()*9999);
 		try {
 		PreparedStatement applicantStatement = connection.
 		prepareStatement("INSERT INTO applicant VALUES (?, ?, ?, ?, ?)");
+		applicantStatement.setInt(1, id);
 		applicantStatement.setString(2, applicant.getFirstName());
 		applicantStatement.setString(3, applicant.getLastName());
 		applicantStatement.setString(4, applicant.getEmail());

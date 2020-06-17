@@ -40,9 +40,11 @@ public class CompanyRegistrationRepoImpl implements CompanyRegistrationRepo {
 	}
 	//adds company to database
 	public void addCompany(Company company) {
+		int id = 1 + (int)(Math.random()*9999);
 		try {
 		PreparedStatement companyStatement = connection.
 				prepareStatement("INSERT INTO company VALUES (?, ?, ?, ?, ?)");
+		companyStatement.setInt(1,id);
 		companyStatement.setString(2, company.getCompanyName());
 		companyStatement.setString(3, company.getCompanyLocation());
 		companyStatement.setString(4, company.getCompanyEmail());

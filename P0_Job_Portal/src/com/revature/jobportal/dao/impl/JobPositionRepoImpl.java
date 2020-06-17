@@ -51,7 +51,7 @@ public class JobPositionRepoImpl implements JobPositionRepo {
 		try {
 		PreparedStatement jobStatement = connection.
 				prepareStatement("INSERT INTO jobposition VALUES (?, ?, ?, ?, ?, ?)");
-		int id = 10;
+		int id = 1 + (int)(Math.random()*9999);
 		jobStatement.setInt(1, id);
 		jobStatement.setString(5, jobPosition.getCompany());
 		jobStatement.setString(3, jobPosition.getDescription());
@@ -67,7 +67,7 @@ public class JobPositionRepoImpl implements JobPositionRepo {
 		try {
 			PreparedStatement jobStatement = connection.
 					prepareStatement("INSERT INTO jobposition VALUES (?, ?, ?, ?, ?, ?, ?)");
-			int id = 12;
+			int id = 1 + (int)(Math.random()*9999);
 			jobStatement.setInt(1, id);
 			jobStatement.setString(5, jobPosition.getCompany());
 			jobStatement.setString(3, jobPosition.getDescription());

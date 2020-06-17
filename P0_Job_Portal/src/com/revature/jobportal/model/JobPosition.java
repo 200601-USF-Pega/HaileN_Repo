@@ -11,7 +11,9 @@ public class JobPosition {
 	private String location;
 	private String description;
 	private String company;
+	private String applicant;
 	private List<Applicant> applicants = new ArrayList<Applicant>();
+	private String status;
 
 	public JobPosition() {
 		
@@ -23,7 +25,18 @@ public class JobPosition {
 		this.description = description;
 		this.company = company;
 	}
-
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
+}
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
+	}
+	public String getApplicant() {
+		return applicant;
+	}
 	public int getId() {
 		return id;
 	}

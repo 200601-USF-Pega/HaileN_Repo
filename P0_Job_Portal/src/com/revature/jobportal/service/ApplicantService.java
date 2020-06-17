@@ -1,9 +1,12 @@
 package com.revature.jobportal.service;
 
+import java.util.List;
 import java.util.Scanner;
 
-import com.revature.jobportal.db.ApplicantResgistrationRepo;
-import com.revature.jobportal.db.JobPositionRepo;
+import com.revature.jobportal.dao.ApplicantRegistrationRepo;
+import com.revature.jobportal.dao.JobPositionRepo;
+import com.revature.jobportal.dao.impl.ApplicantRegistrationRepoImpl;
+import com.revature.jobportal.dao.impl.JobPositionRepoImpl;
 import com.revature.jobportal.mainmenu.MainMenu;
 import com.revature.jobportal.model.Applicant;
 import com.revature.jobportal.model.JobPosition;
@@ -12,8 +15,8 @@ public class ApplicantService {
 	
 	//takes in applicant input.
 	Scanner input = new Scanner(System.in);
-	JobPositionRepo jobPositionRepo = new JobPositionRepo();
-	ApplicantResgistrationRepo applicantRepo = new ApplicantResgistrationRepo();
+	JobPositionRepo jobPositionRepo = new JobPositionRepoImpl();
+	ApplicantRegistrationRepo applicantRepo = new ApplicantRegistrationRepoImpl();
 	
 	//takes applicant information and creates account if applicant doesn't exist in database.
 	public void signUp() {
@@ -62,8 +65,11 @@ public class ApplicantService {
 				System.out.println("\nWelcome back: " + applicant.getFirstName().toUpperCase() + " "
 						+ applicant.getLastName().toUpperCase() + " \n");
 				for (JobPosition j : jobPositionRepo.getJobPosition()) {
+					String jv = j.getApplicant();
+					if(jv!=null) {
+						continue;
+					}
 					System.out.print(j.getId() + " " + j.getCompany());
-
 					for (Applicant a : j.getApplicants()) {
 						if (a.getEmail().equals(applicant.getEmail())) {
 							System.out.print("   ***submitted");
@@ -95,8 +101,8 @@ public class ApplicantService {
 							System.out.print("\nDo you want to submit your profile for this position? (y/n) ");
 							String submit = input.nextLine();
 							if (submit.equalsIgnoreCase("y")) {
-								applicant.setStatus("reviewing");
-								j.addApplicant(applicant);
+								j.setStatus("reviewing");
+								jobPositionRepo.applyPosition(j, applicant);
 								
 			       //confirms application submission and goes back to apply for a new job, view application status, or signOut
 								System.out.println("***You have successfully submitted your profile.***");
@@ -112,18 +118,19 @@ public class ApplicantService {
 				} else if (userInput.equals("2")) {
 					boolean no = true;
 					System.out.println("====== APPLIED JOBS ======\n");
-					for (JobPosition j : jobPositionRepo.getJobPosition()) {
-						for (Applicant a : j.getApplicants()) {
-							if (a.getEmail().equals(applicant.getEmail())) {
-								no = false;
-								System.out.println(j.getCompany() + "\n     " + j.getTitle() + "\n     "
-										+ j.getDescription() + "\n     " + j.getLocation());
-								System.out.println("                                status: " + applicant.getStatus());
-								System.out.println();
-							}
 
+					List<JobPosition> jp = jobPositionRepo.getAppliedPosition(applicant);
+					for(JobPosition j: jp) {
+						if(j.getApplicant() != null && j.getApplicant().equals(applicant.getId())) {
+							no = false;
+							System.out.println(j.getCompany() + "\n     " + j.getTitle() + "\n     "
+									+ j.getDescription() + "\n     " + j.getLocation());
+							System.out.println("                                status: " + j.getStatus());
+							System.out.println();
 						}
 					}
+					
+					
 					if(no) {
 						
 					// shows message if no applications where submitted. and gives option to go back to previous menu

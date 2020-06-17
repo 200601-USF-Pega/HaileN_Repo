@@ -2,13 +2,12 @@ package com.revature.jobportal.model;
 
 public class Applicant {
 
-	private int id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String pasword;
-	private String status;
-	private static int count = 1;
+	
 	
 	public Applicant() {
 		
@@ -19,18 +18,12 @@ public class Applicant {
 		this.lastName = lastName;
 		this.email = email;
 		this.pasword = pasword;
-		this.id = count;
 	}
-
-	public String getStatus() {
-		return status;
+	
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	

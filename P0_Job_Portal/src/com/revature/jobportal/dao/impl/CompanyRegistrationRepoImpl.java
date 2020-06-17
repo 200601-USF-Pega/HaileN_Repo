@@ -1,22 +1,24 @@
-package com.revature.jobportal.db;
+package com.revature.jobportal.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.revature.jobportal.dao.CompanyRegistrationRepo;
 import com.revature.jobportal.model.Company;
 import com.revature.jobportal.service.ConnectionService;
 
-public class CompanyRegistrationRepo {
+public class CompanyRegistrationRepoImpl implements CompanyRegistrationRepo {
 	
 	//calls ConnectionService class to establish database connection
-	ConnectionService connectionService = new ConnectionService();
+	Connection connection = ConnectionService.getConnection();
 	
 	public Company getCompany(String email, String pass){
 		try {
 			//pulls company from database using email and password
 			String q = "select * from company where email= ?  and companypassword = ? limit 1";
-			PreparedStatement ps = connectionService.getConnection().prepareStatement(q);
+			PreparedStatement ps = connection.prepareStatement(q);
 			ps.setString(1, email);
 			ps.setString(2, pass);
 			
@@ -25,7 +27,7 @@ public class CompanyRegistrationRepo {
 		while (rs.next()) {				
 			Company c = new Company();
 			c.setCompanyName(rs.getString("companyname"));
-			c.setCompanyLocation(rs.getString("adress"));
+			c.setCompanyLocation(rs.getString("address"));
 			c.setCompanyEmail(rs.getString("email"));				
 			return c;
 			}
@@ -38,17 +40,14 @@ public class CompanyRegistrationRepo {
 	}
 	//adds company to database
 	public void addCompany(Company company) {
-		int i = 10;
 		try {
-		PreparedStatement companyStatement = connectionService.getConnection().
+		PreparedStatement companyStatement = connection.
 				prepareStatement("INSERT INTO company VALUES (?, ?, ?, ?, ?)");
-		companyStatement.setInt(1, i);
 		companyStatement.setString(2, company.getCompanyName());
 		companyStatement.setString(3, company.getCompanyLocation());
 		companyStatement.setString(4, company.getCompanyEmail());
 		companyStatement.setString(5, company.getPassword());
 		companyStatement.executeUpdate();
-		i++;
 		
 		} catch(SQLException e) {
 			
@@ -61,7 +60,7 @@ public class CompanyRegistrationRepo {
 	try {
 			
 			String q = "select * from company where email= ? limit 1";
-			PreparedStatement ps = connectionService.getConnection().prepareStatement(q);
+			PreparedStatement ps = connection.prepareStatement(q);
 			ps.setString(1, companyEmail);
 			
 		ResultSet rs = ps.executeQuery();
@@ -69,7 +68,7 @@ public class CompanyRegistrationRepo {
 		while (rs.next()) {				
 			Company c = new Company();
 			c.setCompanyName(rs.getString("companyname"));
-			c.setCompanyLocation(rs.getString("adress"));
+			c.setCompanyLocation(rs.getString("address"));
 			c.setCompanyEmail(rs.getString("email"));				
 			return c;
 			}

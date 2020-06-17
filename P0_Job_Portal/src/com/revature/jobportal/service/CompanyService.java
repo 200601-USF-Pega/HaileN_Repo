@@ -1,8 +1,13 @@
 package com.revature.jobportal.service;
 
 import java.util.Scanner;
-import com.revature.jobportal.db.CompanyRegistrationRepo;
-import com.revature.jobportal.db.JobPositionRepo;
+
+import com.revature.jobportal.dao.ApplicantRegistrationRepo;
+import com.revature.jobportal.dao.CompanyRegistrationRepo;
+import com.revature.jobportal.dao.JobPositionRepo;
+import com.revature.jobportal.dao.impl.ApplicantRegistrationRepoImpl;
+import com.revature.jobportal.dao.impl.CompanyRegistrationRepoImpl;
+import com.revature.jobportal.dao.impl.JobPositionRepoImpl;
 import com.revature.jobportal.mainmenu.MainMenu;
 import com.revature.jobportal.model.Applicant;
 import com.revature.jobportal.model.Company;
@@ -14,8 +19,9 @@ public class CompanyService {
 	//takes in company input
 	Scanner input = new Scanner(System.in);
 	Validation validation = new Validation();
-	CompanyRegistrationRepo companyRepo = new CompanyRegistrationRepo();
-	JobPositionRepo jobPositionRepo = new JobPositionRepo();
+	CompanyRegistrationRepo companyRepo = new CompanyRegistrationRepoImpl();
+	JobPositionRepo jobPositionRepo = new JobPositionRepoImpl();
+	ApplicantRegistrationRepo applicantRepo = new ApplicantRegistrationRepoImpl();
 
 	//takes company information and creates account if company doesn't exist in database
 	public void signUp() {
@@ -73,7 +79,9 @@ public class CompanyService {
 				System.out.println("\n ***Posted jobs*** ");
 				for (JobPosition j : jobPositionRepo.getJobPosition()) {
 					if (j.getCompany().equals(company.getCompanyName())) {
+						if(j.getApplicant() == null) {
 						System.out.println("\n " + j.getTitle() + " | " + j.getDescription() + " | " + j.getLocation());
+					}
 					}
 				}
 				String userInput = input.nextLine();
@@ -99,15 +107,15 @@ public class CompanyService {
 					boolean no = true;
 					for (JobPosition j : jobPositionRepo.getJobPosition()) {
 						if (j.getCompany().equals(company.getCompanyName())) {
-							if (!j.getApplicants().isEmpty()) {
+							if (j.getApplicant()!= null && !j.getApplicant().isEmpty()) {
 								no = false;
 								System.out.println("+Position+\n         " + j.getTitle() + " | " + j.getDescription()
 										+ " | " + j.getLocation());
 								System.out.println("+Candidates+");
-								for (Applicant a : j.getApplicants()) {
+								Applicant a = applicantRepo.getAppliedApplicant(Integer.parseInt(j.getApplicant()));
 									System.out.println("         " + a.getFirstName() + " " + a.getLastName() + " "
 											+ a.getEmail());
-								}
+								
 								System.out.println();
 							}
 						}
@@ -141,7 +149,8 @@ public class CompanyService {
 								System.out.println("\n==== Review Candidate Profiles ====\n");
 								for (JobPosition j : jobPositionRepo.getJobPosition()) {
 									if (j.getCompany().equals(company.getCompanyName())) {
-										for (Applicant a : j.getApplicants()) {
+										if (j.getApplicant()!= null  && !j.getApplicant().isEmpty()) {
+										Applicant a = applicantRepo.getAppliedApplicant(Integer.parseInt(j.getApplicant()));
 											String ad = null;
 											do {
 												System.out.println("         " + a.getFirstName() + " "
@@ -154,19 +163,22 @@ public class CompanyService {
 												
 												//accepts applicant
 												if (ad.equals("1")) {
-													a.setStatus("accepted");
+													j.setStatus("accepted");
+													jobPositionRepo.updatePosition(j);
 													System.out.println(a.getFirstName() + " " + a.getLastName() + " " + " ***profile has been successfully accepted.");
 													Thread.sleep(1500);
 													
 												//declines applicant
 												} else if (ad.equals("2")) {
-													a.setStatus("declined");
+													j.setStatus("declined");
+													jobPositionRepo.updatePosition(j);
 													System.out.println(a.getFirstName() + " " + a.getLastName() + " " + " ***profile has been successfully declined.");
 													Thread.sleep(1500);
 												}
 											} while (!ad.equals("1") && !ad.equals("2"));
-										}
+										
 										System.out.println();
+									}
 									}
 								}
 								check = true;
